@@ -1,5 +1,5 @@
 # containerD_gpu_patch
-Ansible Playbooks and Bash Scripts to patch containerD for NVIDIA GPU passthrough
+Ansible Playbooks and Bash Scripts to patch containerD for NVIDIA GPU passthrough for RKE2
 
 ## Pre-Patch Setup
 NVIDIA-Drivers must be installed prior to this driver patch.  Latest NVIDIA-Driver install instructions can be found here:
