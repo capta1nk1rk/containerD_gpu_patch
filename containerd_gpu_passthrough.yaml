@@ -11,7 +11,7 @@
 
   - debug:
       msg: "RKE2 Dir Present"
-  when: dir_details.stat.exists and dir_details.stat.isdir
+    when: dir_details.stat.exists and dir_details.stat.isdir
 
   - name: Create containerD folder if it doesn't exist
     file:
@@ -23,7 +23,7 @@
 
   - name: create config.toml.tmpl file for containerD
     copy:
-      src: /template/config.toml.tmpl
+      src: ./template/config.toml.tmpl
       dest: /var/lib/rancher/rke2/agent/etc/containerd/config.toml.tmpl
       owner: root
       group: root
@@ -35,20 +35,14 @@
 
   - name: Restart rke2-server + associated services
     service:
-      name: "{{ item }}"
+      name: rke2-server
       state: restarted
       daemon_reload: yes
-    with_items:
-      - 'rke2-server'
-      - 'containerd'
-    when: service_state.ansible_facts.services["rke2-server.service"].state == 'started'
+    when: service_state.ansible_facts.services["rke2-server.service"].state == 'active'
  
   - name: Restart rke2-agent + associated services
     service:
-      name: "{{ item }}"
+      name: rke2-agent
       state: restarted
       daemon_reload: yes
-    with_items:
-      - 'rke2-agent'
-      - 'containerd'
-    when: service_state.ansible_facts.services["rke2-agent.service"].state == 'started'
+    when: service_state.ansible_facts.services["rke2-agent.service"].state == 'active'

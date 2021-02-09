@@ -1,27 +1,34 @@
 [plugins.opt]
   path = "{{ .NodeConfig.Containerd.Opt }}"
+
 [plugins.cri]
   stream_server_address = "127.0.0.1"
   stream_server_port = "10010"
+
 {{- if .IsRunningInUserNS }}
   disable_cgroup = true
   disable_apparmor = true
   restrict_oom_score_adj = true
 {{end}}
+
 {{- if .NodeConfig.AgentConfig.PauseImage }}
   sandbox_image = "{{ .NodeConfig.AgentConfig.PauseImage }}"
 {{end}}
+
 {{- if not .NodeConfig.NoFlannel }}
 [plugins.cri.cni]
   bin_dir = "{{ .NodeConfig.AgentConfig.CNIBinDir }}"
   conf_dir = "{{ .NodeConfig.AgentConfig.CNIConfDir }}"
 {{end}}
+
 [plugins.cri.containerd.runtimes.runc]
   # ---- changed from 'io.containerd.runc.v2' for GPU support
   runtime_type = "io.containerd.runtime.v1.linux"
+
 # ---- added for GPU support
 [plugins.linux]
   runtime = "nvidia-container-runtime"
+
 {{ if .PrivateRegistryConfig }}
 {{ if .PrivateRegistryConfig.Mirrors }}
 [plugins.cri.registry.mirrors]{{end}}
@@ -29,6 +36,7 @@
 [plugins.cri.registry.mirrors."{{$k}}"]
   endpoint = [{{range $i, $j := $v.Endpoints}}{{if $i}}, {{end}}{{printf "%q" .}}{{end}}]
 {{end}}
+
 {{range $k, $v := .PrivateRegistryConfig.Configs }}
 {{ if $v.Auth }}
 [plugins.cri.registry.configs."{{$k}}".auth]
