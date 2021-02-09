@@ -3,7 +3,7 @@ Ansible Playbooks and Bash Scripts to patch containerD for NVIDIA GPU passthroug
 
 ## Pre-Patch Setup
 NVIDIA-Drivers must be installed prior to this driver patch.  Latest NVIDIA-Driver install instructions can be found here:
-https://docs.nvidia.com/datacenter/tesla/tesla-installation-notes/index.html#rhel8
+https://docs.nvidia.com/datacenter/tesla/tesla-installation-notes/index.html
 
 NVIDIA-Container-Runtime must also be installed prior to containerD patch.  Lastest install instructions can be found here:
 https://github.com/NVIDIA/nvidia-container-runtime#installation
